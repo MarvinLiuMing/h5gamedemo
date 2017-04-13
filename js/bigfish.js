@@ -5,6 +5,9 @@ var bigfishObj = function(){
     this.bigBody = new Image();
     this.bigTail = new Image();
     this.angle = 0;
+    this.bigfishTime=0;
+    this.bigfishTailCount=0;
+    this.bigTailimgArr = [];
 }
 bigfishObj.prototype.init = function()
 {
@@ -13,9 +16,28 @@ bigfishObj.prototype.init = function()
     this.bigEye.src = "./src/bigEye0.png";
     this.bigBody.src = "./src/bigSwim0.png";
     this.bigTail.src = "./src/bigTail0.png";
+
+    for(var i=0;i<8;i++)
+    {
+        this.bigTailimgArr[i] = new Image();
+        this.bigTailimgArr[i].src = "./src/bigTail"+i+".png";
+    }
 }
 bigfishObj.prototype.draw = function()
 {
+    this.bigfishTime += deltaTime;
+    if (this.bigfishTime > 50) 
+    {
+        this.bigfishTailCount = (this.bigfishTailCount + 1) % 8;
+        this.bigfishTime %= 50;
+        this.bigTail = this.bigTailimgArr[this.bigfishTailCount];
+    }
+    // this.bigTail.src = "./src/bigTail"+this.imgindex+".png";
+    // if (this.imgindex>=7) 
+    // {this.imgindex = 0}
+    // else
+    // {this.imgindex++;}
+
     this.x = lerpDistance(mx,this.x,0.99);
     this.y = lerpDistance(my,this.y,0.99);
 

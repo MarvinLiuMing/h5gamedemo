@@ -5,7 +5,7 @@ var ctx1;
 var ctx2;
 
 var deltaTime;
-var lasttime;
+var lasttime =0 ; 
 
 var canWidth;
 var canHeight;
@@ -15,9 +15,15 @@ var backgroundimg = new Image();
 var aneobj;
 var food;
 var bigfish;
+var baby;
 
-var mouseX;
-var mouseY;
+var mx;
+var my;
+var dataobj;
+
+var oEvent
+var oLeft
+var oTop
 
 function game()
 {
@@ -45,10 +51,21 @@ function init()
     bigfish = new bigfishObj();
     bigfish.init();
 
-    mouseX=canWidth/2;
-    mouseY=canHeight/2;
+    mx=canWidth/2;
+    my=canHeight/2;
+
+    baby = new babyObj();
+    baby.init();
 
     can1.addEventListener('mousemove',onMouseMove,false)
+    can1.addEventListener('click',MouseClick,false)
+
+    for(var i=0;i<8;i++){
+        bigfish.bigTail.src = "./src/bigTail"+i+".png";
+    }
+
+    dataobj = new dataObj();
+
 }
 
 function gameloop()
@@ -58,6 +75,7 @@ function gameloop()
     drawbackground();
     deltaTime=nowtime-lasttime;
     lasttime = nowtime;
+    deltaTime = deltaTime>50?50:deltaTime;
     //console.log(deltaTime);
     aneobj.draw();
 
@@ -65,6 +83,12 @@ function gameloop()
 
     ctx1.clearRect(0,0,canWidth,canHeight);
     bigfish.draw();
+    firshFoodCollision();
+
+    baby.draw();
+
+    dataobj.draw();
+
 }
 
 function onMouseMove(e){
@@ -74,3 +98,10 @@ function onMouseMove(e){
         my= e.offSetY == undefined?e.layerY:e.offsetY;
     }
 }
+
+function MouseClick(ev){
+    oEvent=ev||event;
+    oLeft=oEvent.clientX
+    oTop=oEvent.clientY
+}
+

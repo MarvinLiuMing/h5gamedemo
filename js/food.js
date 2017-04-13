@@ -30,13 +30,13 @@ foodObj.prototype.draw = function()
         if(this.liveflag[i])
         {
             if(this.area[i]<10){
-                this.area[i] +=this.upspeed[i]*deltaTime;
+                this.area[i] +=this.upspeed[i]*deltaTime*0.8;
             }
             else
             {
                 this.y[i] -= this.upspeed[i];
             }
-            ctx2.drawImage(this.foodimg[i],this.x[i] - this.bluefood.width/2,this.y[i],this.area[i],this.area[i]);
+            ctx2.drawImage(this.foodimg[i],this.x[i] - this.foodimg[i].width/2,this.y[i],this.area[i],this.area[i]);
             if(this.y[i]<0){
                 this.area[i]=0;
                 this.born(i)}
@@ -50,4 +50,5 @@ foodObj.prototype.born = function(i)
     this.y[i] = canHeight-aneobj.len[i]+20;
     this.upspeed[i] = Math.random()+0.005;
     this.foodimg[i] = Math.random()>0.3?this.bluefood:this.orangefood;
+    this.liveflag[i] = true;
 }
